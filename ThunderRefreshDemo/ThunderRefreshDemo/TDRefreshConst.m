@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-const CGFloat TDRefreshHeaderHeight = 54.0;
+const CGFloat TDRefreshHeaderHeight = 80.0;
 const CGFloat TDRefreshFooterHeight = 44.0;
 const CGFloat TDRefreshFastAnimationDuration = 0.25;
 const CGFloat TDRefreshSlowAnimationDuration = 0.4;

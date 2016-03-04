@@ -24,6 +24,7 @@
 		2FB7E8981C89300C004ED0F6 /* TDRefreshStateFooter.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB7E88A1C89300C004ED0F6 /* TDRefreshStateFooter.m */; };
 		2FB7E8991C89300C004ED0F6 /* TDRefreshStateHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB7E88C1C89300C004ED0F6 /* TDRefreshStateHeader.m */; };
 		2FB7E89A1C89300C004ED0F6 /* UIScrollView+TDRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB7E88E1C89300C004ED0F6 /* UIScrollView+TDRefresh.m */; };
+		2FB7E8C31C89629B004ED0F6 /* TDRefreshGifHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2FB7E8C21C89629B004ED0F6 /* TDRefreshGifHeader.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -60,6 +61,8 @@
 		2FB7E88C1C89300C004ED0F6 /* TDRefreshStateHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDRefreshStateHeader.m; sourceTree = "<group>"; };
 		2FB7E88D1C89300C004ED0F6 /* UIScrollView+TDRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScrollView+TDRefresh.h"; sourceTree = "<group>"; };
 		2FB7E88E1C89300C004ED0F6 /* UIScrollView+TDRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+TDRefresh.m"; sourceTree = "<group>"; };
+		2FB7E8C11C89629B004ED0F6 /* TDRefreshGifHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDRefreshGifHeader.h; sourceTree = "<group>"; };
+		2FB7E8C21C89629B004ED0F6 /* TDRefreshGifHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDRefreshGifHeader.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +159,8 @@
 				2FB7E88C1C89300C004ED0F6 /* TDRefreshStateHeader.m */,
 				2FB7E8871C89300C004ED0F6 /* TDRefreshNormalHeader.h */,
 				2FB7E8881C89300C004ED0F6 /* TDRefreshNormalHeader.m */,
+				2FB7E8C11C89629B004ED0F6 /* TDRefreshGifHeader.h */,
+				2FB7E8C21C89629B004ED0F6 /* TDRefreshGifHeader.m */,
 			);
 			name = header;
 			sourceTree = "<group>";
@@ -234,6 +239,7 @@
 				2FB7E8911C89300C004ED0F6 /* TDRefreshConst.m in Sources */,
 				2FB7E8991C89300C004ED0F6 /* TDRefreshStateHeader.m in Sources */,
 				2F1DD64C1C88136E00FE7B3E /* ViewController.m in Sources */,
+				2FB7E8C31C89629B004ED0F6 /* TDRefreshGifHeader.m in Sources */,
 				2FB7E8981C89300C004ED0F6 /* TDRefreshStateFooter.m in Sources */,
 				2F1DD6491C88136E00FE7B3E /* AppDelegate.m in Sources */,
 				2FB7E8941C89300C004ED0F6 /* TDRefreshHeader.m in Sources */,

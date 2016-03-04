@@ -11,6 +11,7 @@
 #import "TDRefreshHeader.h"
 #import "TDRefreshFooter.h"
 #import "TDRefreshNormalHeader.h"
+#import "TDRefreshGifHeader.h"
 #import "TDRefreshNormalFooter.h"
 
 @implementation NSObject (MJRefresh)
@@ -110,7 +111,7 @@ static const char TDRefreshFooterAddedKey = '\0';
 {
     if (!self.header)
     {
-        self.header = [TDRefreshNormalHeader headerWithRefreshingBlock:callback];
+        self.header = [TDRefreshGifHeader headerWithRefreshingBlock:callback];
     }
     self.headerIsAdded = YES;
 }
