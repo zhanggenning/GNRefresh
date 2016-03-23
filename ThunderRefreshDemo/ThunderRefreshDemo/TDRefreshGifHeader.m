@@ -14,6 +14,7 @@
 @interface TDRefreshGifHeader ()
 {
     __unsafe_unretained UIImageView *_gifView;
+    __unsafe_unretained UILabel *_stayLabel;
 }
 
 /* 所有状态对应的动画图片 */
@@ -35,6 +36,17 @@
         [self addSubview:_gifView = gifView];
     }
     return _gifView;
+}
+
+- (UILabel *)stayLabel
+{
+    if (!_stayLabel)
+    {
+        UILabel *stayLabel = [UILabel label];
+        [self addSubview:_stayLabel = stayLabel];
+    }
+    
+    return _stayLabel;
 }
 
 - (NSMutableDictionary *)stateImages
@@ -98,6 +110,12 @@
     
     // 设置正在刷新状态的动画图片
     [self setImages:refreshingImages forState:TDRefreshStateRefreshing];
+    
+    self.gifView.contentMode = UIViewContentModeScaleAspectFit;
+    
+    self.stayLabel.hidden = YES;
+    self.stayLabel.backgroundColor = [UIColor greenColor];
+    self.stayLabel.text = @"停留显示测试";
 }
 
 - (void)placeSubviews
@@ -120,6 +138,8 @@
     CGPoint tempCenter = self.gifView.center;
     tempCenter.x = self.mj_w / 2;
     self.gifView.center = tempCenter;
+    
+    self.stayLabel.frame = CGRectMake(0, self.mj_h - self.stayHeight, self.mj_w, self.stayHeight);
 }
 
 - (void)setPullingPercent:(CGFloat)pullingPercent
@@ -168,4 +188,23 @@
         [self.gifView stopAnimating];
     }
 }
+
+#pragma mark -- 父类
+-(void)doStartStayWhenEndRefresh
+{
+    self.stayLabel.hidden = NO;
+}
+
+- (void)doStopStayWhenEndRefresh
+{
+    self.stayLabel.hidden = YES;
+}
+
+- (void)setStayMessage:(NSString *)stayMessage
+{
+    [super setStayMessage:stayMessage];
+    
+    self.stayLabel.text = stayMessage;
+}
+
 @end

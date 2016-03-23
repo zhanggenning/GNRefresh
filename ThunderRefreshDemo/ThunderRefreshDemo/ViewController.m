@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "UIScrollView+TDRefresh.h"
+#import "TDRefresh.h"
 
 
 @interface ViewController () <UITableViewDataSource, UITableViewDelegate>
@@ -23,14 +23,18 @@
     
     __weak typeof(self) weakSelf = self;
     
+    self.tableView.contentOffset = CGPointMake(0, -200);
+    self.tableView.contentInset = UIEdgeInsetsMake(200, 0, 0, 0);
     
     [self.tableView addHeaderWithCallback:^{
         [weakSelf loadNewData];
     }];
     
-    [self.tableView addFooterWithCallback:^{
-        [weakSelf loadNewData];
-    }];
+    self.tableView.header.needStayWhenEndRefresh = YES;
+    
+//    [self.tableView addFooterWithCallback:^{
+//        [weakSelf loadNewData];
+//    }];
 
 }
 
@@ -41,12 +45,12 @@
 
 - (void)loadNewData
 {
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self.tableView reloadData];
         
         [self.tableView headerEndRefreshing];
 
-        [self.tableView footerEndRefreshing];
+//        [self.tableView footerEndRefreshing];
     });
 }
 
@@ -54,7 +58,7 @@
 #pragma mark -- <UITableViewDataSource, UITableViewDelegate>
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 10;
+    return 50;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

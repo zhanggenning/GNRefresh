@@ -12,4 +12,6 @@
 
 @property (weak, nonatomic, readonly) UIImageView *gifView;
 
+@property (weak, nonatomic, readonly) UILabel *stayLabel;
+
 @end

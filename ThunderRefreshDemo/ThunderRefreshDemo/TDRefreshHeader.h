@@ -25,4 +25,18 @@
 /** 忽略多少scrollView的contentInset的top */
 @property (assign, nonatomic) CGFloat ignoredScrollViewContentInsetTop;
 
+#pragma mark -- 结束停留相关
+@property (assign, nonatomic) BOOL needStayWhenEndRefresh; //结束刷新状态时需要停留
+
+@property (assign, nonatomic) CGFloat stayHeight; //停留时距离底边的距离
+
+@property (assign, nonatomic) CGFloat stayDuration; //停留时间
+
+@property (copy, nonatomic) NSString *stayMessage; //停留信息
+
+#pragma mark  -- 子类重载
+- (void)doStartStayWhenEndRefresh;
+- (void)doStopStayWhenEndRefresh;
+
+
 @end

@@ -41,6 +41,11 @@
     
     // 设置高度
     self.mj_h = TDRefreshHeaderHeight;
+    
+    // 设置结束停留
+    self.needStayWhenEndRefresh = NO;
+    self.stayHeight = 30.0;
+    self.stayDuration = 3.0;
 }
 
 - (void)placeSubviews
@@ -61,11 +66,42 @@
         if (self.window == nil) return;
         
         // sectionheader停留解决
-        CGFloat insetT = - self.scrollView.mj_offsetY > _scrollViewOriginalInset.top ? - self.scrollView.mj_offsetY : _scrollViewOriginalInset.top;
-        insetT = insetT > self.mj_h + _scrollViewOriginalInset.top ? self.mj_h + _scrollViewOriginalInset.top : insetT;
+        CGFloat insetT = MAX(- self.scrollView.mj_offsetY, _scrollViewOriginalInset.top);
+        insetT = MIN(self.mj_h + _scrollViewOriginalInset.top, insetT);
         self.scrollView.mj_insetT = insetT;
         
-        self.insetTDelta = _scrollViewOriginalInset.top - insetT;
+        if (_needStayWhenEndRefresh)
+        {
+            self.insetTDelta = -(self.scrollView.mj_insetT - _stayHeight - _scrollViewOriginalInset.top);
+        }
+        else
+        {
+            self.insetTDelta =  - (insetT - _scrollViewOriginalInset.top);
+        }
+        
+        NSLog(@"%f, %f, %f, %f", insetT, _scrollViewOriginalInset.top, -self.scrollView.mj_offsetY, self.insetTDelta);
+        
+        return;
+    }
+    else if (self.state == TDRefreshStateIdle && self.scrollView.mj_insetT != _scrollViewOriginalInset.top)
+    {
+        if (self.scrollView.isDragging && -self.scrollView.mj_offsetY != self.scrollView.mj_insetT) //拖拽中
+        {
+            [self doStopStayWhenEndRefresh];
+            [[self class] cancelPreviousPerformRequestsWithTarget:self];
+            
+            if (-self.scrollView.mj_offsetY > self.scrollView.mj_insetT) //向下拽
+            {
+                CGFloat temp = self.scrollView.mj_insetT;
+                self.scrollView.mj_insetT = _scrollViewOriginalInset.top;
+                self.scrollView.mj_offsetY = -temp;
+                self.insetTDelta = 0;
+            }
+            else //向上推
+            {
+                [self resetScrollViewInset]; //直接回去
+            }
+        }
         return;
     }
     
@@ -76,7 +112,7 @@
     CGFloat offsetY = self.scrollView.mj_offsetY;
     // 头部控件刚好出现的offsetY
     CGFloat happenOffsetY = - self.scrollViewOriginalInset.top;
-    
+
     // 如果是向上滚动到看不见头部控件，直接返回
     // >= -> >
     if (offsetY > happenOffsetY) return;
@@ -123,14 +159,29 @@
         [[NSUserDefaults standardUserDefaults] synchronize];
         
         // 恢复inset和offset
+//        [UIView animateWithDuration:TDRefreshSlowAnimationDuration animations:^{
+//            self.scrollView.mj_insetT += self.insetTDelta;
+//            
+//            // 自动调整透明度
+//            if (self.isAutomaticallyChangeAlpha) self.alpha = 0.0;
+//        } completion:^(BOOL finished) {
+//            self.pullingPercent = 0.0;
+//        }];
+        
+        self.scrollView.scrollEnabled = NO;
         [UIView animateWithDuration:TDRefreshSlowAnimationDuration animations:^{
             self.scrollView.mj_insetT += self.insetTDelta;
-            
-            // 自动调整透明度
-            if (self.isAutomaticallyChangeAlpha) self.alpha = 0.0;
+            self.scrollView.mj_offsetY = (-self.scrollView.mj_insetT);
         } completion:^(BOOL finished) {
-            self.pullingPercent = 0.0;
+            self.scrollView.scrollEnabled = YES;
+            if (self.scrollView.mj_insetT != 0)
+            {
+                [self doStartStayWhenEndRefresh];
+                
+                [self performSelector:@selector(resetScrollViewInset) withObject:nil afterDelay:_stayDuration];
+            }
         }];
+        
     }
     else if (state == TDRefreshStateRefreshing)
     {
@@ -146,6 +197,23 @@
         }];
     }
 }
+
+- (void)resetScrollViewInset
+{
+    self.scrollView.scrollEnabled = NO;
+    [UIView animateWithDuration:TDRefreshFastAnimationDuration animations:^{
+        self.scrollView.mj_insetT = _scrollViewOriginalInset.top;
+        self.scrollView.mj_offsetY = -self.scrollView.mj_insetT;
+    } completion:^(BOOL finished) {
+        self.scrollView.scrollEnabled = YES;
+        self.insetTDelta = 0;
+        [self doStopStayWhenEndRefresh];
+    }];
+}
+
+#pragma mark - 子类继承
+- (void)doStartStayWhenEndRefresh {};
+- (void)doStopStayWhenEndRefresh {};
 
 #pragma mark - 公共方法
 - (void)endRefreshing

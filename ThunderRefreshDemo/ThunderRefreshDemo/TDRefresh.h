@@ -4,6 +4,8 @@
  */
 
 #import "UIScrollView+TDRefresh.h"
+#import "TDRefreshHeader.h"
+#import "TDRefreshFooter.h"
 
 /**
  1. 添加头部控件的方法
